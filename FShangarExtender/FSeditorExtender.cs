@@ -14,11 +14,6 @@ namespace FShangarExtender
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	class FSeditorExtender : MonoBehaviour
 	{
-		private static bool SPHextentsAlwaysMax = true;
-		private static bool VABextentsAlwaysMax = true;
-		private static bool BuildingStartMaxSize = false;
-		private static float configCamMaxDistance = 250f; //outdated
-		private static float configMaxWorkArea = 1000f; //outdated
 
 		private Camera sceneCamera;
 		private List<VABCamera> _vabCameras = new List<VABCamera>();
@@ -31,9 +26,8 @@ namespace FShangarExtender
 		private Vector3 _originalConstructionBoundExtends;
 		private Vector3 _originalCameraOffsetBoundExtends;
 		private bool _sceneScaled = false;
-		private static string _hotKey = Constants.defaultHotKey;
 		private static float _scalingFactor = Constants.defaultScaleFactor;
-		private static bool _hideHangars = false;
+		//private static bool _hideHangars = false;
 		private static bool _advancedDebug = false;
 		private bool _hangarExtenderReady = false;
 		private ApplicationLauncherButton _toolbarButton;
@@ -94,16 +88,18 @@ namespace FShangarExtender
 			loadToolbarButton();
 		}
 
-
-		/// <summary>
-		/// default mono update method which is called once each frame
-		/// </summary>
-		public void Update()
+        static KeyCode _lastKeyPressed = KeyCode.None;
+        /// <summary>
+        /// default mono update method which is called once each frame
+        /// </summary>
+        public void Update()
 		{
 			if (_hangarExtenderReady)
 			{
-				bool gotKeyPress = rescaleKeyPressed();
-				if ((_isFirstUpdate && BuildingStartMaxSize) || gotKeyPress)
+                if (Event.current.isKey)
+                    _lastKeyPressed = Event.current.keyCode;
+                bool gotKeyPress = rescaleKeyPressed();
+				if ((_isFirstUpdate && HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().BuildingStartMaxSize) || gotKeyPress)
 				{
 					Debugger.advancedDebug("Scaling Hangar Geometry", _advancedDebug);
 					StartCoroutine(toggleScaling());
@@ -234,7 +230,7 @@ namespace FShangarExtender
 		/// </summary>
 		private void resetMod()
 		{
-			if (_hideHangars)
+			if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 			{
 				foreach (Node n in _hangarNodes)
 				{
@@ -405,7 +401,7 @@ namespace FShangarExtender
 						}
 					}
 
-					if (_hideHangars)
+					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 					{
 						Debugger.advancedDebug("hide Hangars", _advancedDebug);
 						if (_hangarNodes != null && _hangarNodes.Count > 0)
@@ -471,7 +467,7 @@ namespace FShangarExtender
 					RenderSettings.fogStartDistance *= _scalingFactor;
 					RenderSettings.fogEndDistance *= _scalingFactor;
 
-					if (_hideHangars)
+					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 					{
 						Debugger.advancedDebug("hide Hangars", _advancedDebug);
 						if (_hangarNodes != null && _hangarNodes.Count > 0)
@@ -781,77 +777,9 @@ namespace FShangarExtender
 		/// </summary>
 		private static void getSettings()
 		{
-			StreamReader stream;
-			try
-			{
-				Debugger.advancedDebug("Filename and Path: " + Constants.CompletePathAndFileName, true);
-				stream = new StreamReader(Constants.CompletePathAndFileName);
-			}
-			catch
-			{
-				Debugger.advancedDebug("settings.txt not found in GameData\\FShangarExtender\\, using default settings.", true);
-				return;
-			}
-			string newLine = string.Empty;
-			int craftFileFormat = 0;
-
-			// reads the configfile version
-			newLine = readSetting(stream);
-			int.TryParse(newLine, out craftFileFormat);
-			// reads the configfile version
-
-			// reads the used hotkey
-			newLine = readSetting(stream);
-			_hotKey = newLine;
-			Debugger.advancedDebug("Assigned hotkey: " + newLine, true);
-			// reads the used hotkey
-
-			try
-			{
-				if (craftFileFormat > 1)
-				{
-					newLine = readSetting(stream);
-					SPHextentsAlwaysMax = bool.Parse(newLine);
-
-					newLine = readSetting(stream);
-					VABextentsAlwaysMax = bool.Parse(newLine);
-
-					newLine = readSetting(stream);
-					BuildingStartMaxSize = bool.Parse(newLine);
-					Debugger.advancedDebug("Assigned BuildingStartMaxSize: " + _scalingFactor, true);
-				}
-				if (craftFileFormat > 2)
-				{
-					newLine = readSetting(stream);
-					configCamMaxDistance = float.Parse(newLine);
-
-					newLine = readSetting(stream);
-					configMaxWorkArea = float.Parse(newLine);
-				}
-				if (craftFileFormat > 3)
-				{
-					newLine = readSetting(stream);
-					_scalingFactor = float.Parse(newLine) > Constants.defaultScaleFactor ? (float.Parse(newLine) < 1 ? 1 : float.Parse(newLine)) : float.Parse(newLine);
-					Debugger.advancedDebug("Assigned scalingFactor: " + _scalingFactor, true);
-
-					newLine = readSetting(stream);
-					_hideHangars = newLine != "" ? bool.Parse(newLine) : false;
-					_hideHangars = true;
-					Debugger.advancedDebug("Assigned hideHangars: " + _hideHangars, true);
-
-					newLine = readSetting(stream);
-					_advancedDebug = newLine != "" ? bool.Parse(newLine) : false;
-					Debugger.advancedDebug("Assigned advancedDebug: " + _advancedDebug, true);
-				}
-				else
-				{
-					Debugger.advancedDebug("settings file format mismatching, using default settings.", true);
-				}
-			}
-			catch
-			{
-				Debugger.advancedDebug("Error parsing config values", true);
-			}
+            _scalingFactor = HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().scalingFactor;
+            _advancedDebug = HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().advancedDebug;
+            Debugger.advancedDebug("Assigned scalingFactor: " + _scalingFactor, true);
 		}
 
 
@@ -895,12 +823,13 @@ namespace FShangarExtender
 			bool gotKeyPress = false;
 			try
 			{
-				gotKeyPress = Input.GetKeyUp(_hotKey);
-			}
+                gotKeyPress = (_lastKeyPressed == HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().newHotKey);
+                _lastKeyPressed = KeyCode.None;
+
+            }
 			catch
 			{
 				Debugger.advancedDebug("Invalid keycode. Resetting to numpad *", true);
-				_hotKey = Constants.defaultHotKey;
 				gotKeyPress = false;
 			}
 			return gotKeyPress;

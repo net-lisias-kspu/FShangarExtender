@@ -8,7 +8,7 @@ namespace FShangarExtender
 	static class Constants
 	{
 		public const string debugMarker = "[FSHangarExtender]";
-		public const string debugVersion = "Version 3.4.9";
+		public const string debugVersion = "Version 3.5.0";
 
 		public static string[] baseSceneNames = { "vabscenery", "sphscenery" };
 		public static string[] baseHangarNames = { "vablvl1", "vablvl2", "vablvl3", "vabmodern", "sphlvl1", "sphlvl2", "sphlvl3", "sphmodern" };
@@ -16,14 +16,11 @@ namespace FShangarExtender
 		public static string[] nonScalingNodeNames = { "vabcrew", "sphcrew" };
 
 		public static readonly string settingRuntimeDirectory = Assembly.GetExecutingAssembly().Location.Replace(new FileInfo(Assembly.GetExecutingAssembly().Location).Name, "");
-		public const string configFileName = "settings.txt";
-		public static string CompletePathAndFileName = string.Concat(settingRuntimeDirectory, configFileName);
-		public const string extentIconFileName = "FSHangarExtender/FShangarExtenderIconExtend";
-		public const string shrinkIconFileName = "FSHangarExtender/FShangarExtenderIconShrink";
+		public const string extentIconFileName = "FShangarExtender/FShangarExtenderIconExtend";
+		public const string shrinkIconFileName = "FShangarExtender/FShangarExtenderIconShrink";
 		public static string completeShrinkIconFileNamePath = string.Concat(settingRuntimeDirectory, extentIconFileName);
 		public static string completeExtendIconFileNamePath = string.Concat(settingRuntimeDirectory, shrinkIconFileName);
-
-		public const string defaultHotKey = "[*]";
+        
 		public const float defaultScaleFactor = 10f;
 		public const string defaultTempParentName = "FSHangarExtender_Temp_Parent";
 	}

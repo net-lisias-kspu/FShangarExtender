@@ -1,0 +1,4 @@
+3.5.0
+	Adoption by LinuxGuruGamer
+	Removed settings file
+	Added Settings Page
