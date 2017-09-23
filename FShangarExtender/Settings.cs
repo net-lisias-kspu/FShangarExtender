@@ -12,7 +12,7 @@ using UnityEngine;
 namespace FShangarExtender
 {
 
-    [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
+   // [KSPAddon(KSPAddon.Startup.AllGameScenes, false)]
     class HangerExtenderSelectHotKey : MonoBehaviour
     {
         public static HangerExtenderSelectHotKey Instance;
@@ -47,7 +47,9 @@ namespace FShangarExtender
         {
             if (!active)
                 return;
+
             if (Time.realtimeSinceStartup - lastTimeTic > 0.25)            {                active = false;                return;            }
+
             // The settings are only available in the space center
             GUI.skin = HighLogic.Skin;
             settingsRect = GUILayout.Window("HotKeySettings".GetHashCode(),                                            settingsRect,                                            SettingsWindowFcn,                                            "EVA Fuel Settings",                                            GUILayout.ExpandWidth(true),
@@ -63,7 +65,7 @@ namespace FShangarExtender
         }
 
         void SettingsWindowFcn(int windowID)
-        {;            GUILayout.BeginHorizontal();            GUILayout.EndHorizontal();
+        {            GUILayout.BeginHorizontal();            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();            GUILayout.Label("Enter desired hotkey: ");
             GUILayout.Label(hotkey.ToString(), GUI.skin.textField);          
             if (_lastKeyPressed != KeyCode.None)
@@ -130,17 +132,35 @@ namespace FShangarExtender
 
         public override bool Interactible(MemberInfo member, GameParameters parameters)
         {
-            if (changeHotkey)            {                if (HangerExtenderSelectHotKey.Instance.completed)
+            if (changeHotkey)            {
+                // Use MapView.MapCamera to get a gameObject
+                HangerExtenderSelectHotKey gui = MapView.MapCamera.gameObject.GetComponent<HangerExtenderSelectHotKey>();
+                if (gui == null)
                 {
-                    changeHotkey = false;
-                    HangerExtenderSelectHotKey.Instance.EnableWindow(false);
-                    newHotKey = HangerExtenderSelectHotKey.Instance.hotkey;
-                }                else
+                    Debug.Log("Adding HangerExtenderSelectHotKey");
+                    gui = MapView.MapCamera.gameObject.AddComponent<HangerExtenderSelectHotKey>();
+                }
+                if (HangerExtenderSelectHotKey.Instance != null)
                 {
-                    HangerExtenderSelectHotKey.Instance.EnableWindow();
-                    HangerExtenderSelectHotKey.Instance.hotkey = newHotKey;
-                    HangerExtenderSelectHotKey.Instance.lastTimeTic = Time.realtimeSinceStartup;
-                }                            }
+                    if (HangerExtenderSelectHotKey.Instance.completed)
+                    {
+                        changeHotkey = false;
+                        HangerExtenderSelectHotKey.Instance.EnableWindow(false);
+                        newHotKey = HangerExtenderSelectHotKey.Instance.hotkey;
+                        UnityEngine.Object.Destroy(gui);
+                        gui = null;
+                        HangerExtenderSelectHotKey.Instance = null;
+                    }
+                    else
+                    {
+                        HangerExtenderSelectHotKey.Instance.lastTimeTic = Time.realtimeSinceStartup;
+                        if (!HangerExtenderSelectHotKey.Instance.active)
+                        {
+                            HangerExtenderSelectHotKey.Instance.EnableWindow();
+                            HangerExtenderSelectHotKey.Instance.hotkey = newHotKey;
+                        }
+                    }
+                }                           }
            return true;
         }
 

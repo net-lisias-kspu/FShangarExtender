@@ -2,3 +2,8 @@
 	Adoption by LinuxGuruGamer
 	Removed settings file
 	Added Settings Page
+
+3.5.1
+	Fixed hotkey selection on settings page
+	Updated to VS2017
+	Changed .version URL to point to Github
