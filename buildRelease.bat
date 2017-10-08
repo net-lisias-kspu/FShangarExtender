@@ -3,7 +3,7 @@
 
 rem Set variables here
 
-set H=R:\KSP_1.3.0_dev
+set H=R:\KSP_1.3.1_dev
 set GAMEDIR=FShangarExtender
 rem set LICENSE=License.txt
 rem set README=README.md
