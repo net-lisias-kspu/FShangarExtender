@@ -97,6 +97,11 @@ namespace FShangarExtender
         public override int SectionOrder { get { return 1; } }
         public override bool HasPresets { get { return true; } }
 
+        [GameParameters.CustomParameterUI("Use Blizzy toolbar, if available")]
+        public bool useBlizzy = false;
+
+
+
         [GameParameters.CustomParameterUI("Change Hotkey")]
         public bool changeHotkey = false;
         

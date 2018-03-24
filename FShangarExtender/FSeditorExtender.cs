@@ -8,6 +8,7 @@ using KSP;
 using KSP.UI;
 using KSP.UI.Screens;
 using System.IO;
+using ToolbarControl_NS;
 
 namespace FShangarExtender
 {
@@ -30,7 +31,8 @@ namespace FShangarExtender
 		//private static bool _hideHangars = false;
 		private static bool _advancedDebug = false;
 		private bool _hangarExtenderReady = false;
-		private ApplicationLauncherButton _toolbarButton;
+        //private ApplicationLauncherButton _toolbarButton;
+        ToolbarControl toolbarControl;
 		private static Texture2D _shrinkIcon;
 		private static Texture2D _extendIcon;
 		private bool _isFirstUpdate;
@@ -107,12 +109,16 @@ namespace FShangarExtender
 				_isFirstUpdate = false;
 			}
 		}
+        void OnGUI()
+        {
+            if (toolbarControl != null)
+                toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
+        }
 
-
-		/// <summary>
-		/// default mono OnDestroy when the object gets removed from scene
-		/// </summary>
-		public void OnDestroy()
+        /// <summary>
+        /// default mono OnDestroy when the object gets removed from scene
+        /// </summary>
+        public void OnDestroy()
 		{
 			if (_sceneScaled)
 			{
@@ -209,26 +215,39 @@ namespace FShangarExtender
 			Debugger.advancedDebug("Applauncher loading up", true);
 			if (_extendIcon == null)
 			{
-				_extendIcon = GameDatabase.Instance.GetTexture(Constants.extentIconFileName, false);
+				_extendIcon = GameDatabase.Instance.GetTexture(Constants.extentIconFileName + "_38", false);
 				Debugger.advancedDebug("Applauncher icon 1 found", true);
 			}
 			if (_shrinkIcon == null)
 			{
-				_shrinkIcon = GameDatabase.Instance.GetTexture(Constants.shrinkIconFileName, false);
+				_shrinkIcon = GameDatabase.Instance.GetTexture(Constants.shrinkIconFileName + "_38", false);
 				Debugger.advancedDebug("Applauncher icon 2 found", true);
 			}
-			if (_toolbarButton == null)
+#if false
+            if (_toolbarButton == null)
 			{
-				_toolbarButton = ApplicationLauncher.Instance.AddModApplication(() => StartCoroutine(toggleScaling()), () => StartCoroutine(toggleScaling()), null, null, null, null, ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, _extendIcon);
+				_toolbarButton = ApplicationLauncher.Instance.AddModApplication(() => StartCoroutine(toggleScaling()), () => StartCoroutine(toggleScaling()),
+            null, null, null, null, ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, _extendIcon);
 				Debugger.advancedDebug("Applauncher loading complete", true);
 			}
-		}
+#endif
+            toolbarControl = gameObject.AddComponent<ToolbarControl>();
+            toolbarControl.AddToAllToolbars(ToggleScalingRoutine, ToggleScalingRoutine,
+                ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
+                "FSeditorExtender_NS",
+                "fsEditorExtenderButton",
+                Constants.extentIconFileName + "_38",
+                Constants.extentIconFileName + "_24",
+                "FS Editor Extender"
+            );
+            toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
+        }
 
 
-		/// <summary>
-		/// method to completly reset the whole mod
-		/// </summary>
-		private void resetMod()
+        /// <summary>
+        /// method to completly reset the whole mod
+        /// </summary>
+        private void resetMod()
 		{
 			if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 			{
@@ -267,10 +286,17 @@ namespace FShangarExtender
 			_hangarExtenderReady = false;
 			_isFirstUpdate = true;
 
-			if (_toolbarButton != null)
+            if (toolbarControl)
+            {
+                toolbarControl.OnDestroy();
+                Destroy(toolbarControl);
+            }
+#if false
+            if (_toolbarButton != null)
 			{
 				ApplicationLauncher.Instance.RemoveModApplication(_toolbarButton);
 			}
+#endif
 		}
 
 
@@ -309,6 +335,10 @@ namespace FShangarExtender
 			Debugger.advancedDebug("EditorBounds.Instance.cameraOffsetBounds.center = " + EditorBounds.Instance.cameraOffsetBounds.center + " EditorBounds.Instance.cameraOffsetBounds.extents = (" + EditorBounds.Instance.cameraOffsetBounds.extents.x + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.y + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.z + ")", _advancedDebug);
 		}
 
+        void ToggleScalingRoutine()
+        {
+            StartCoroutine(toggleScaling());
+        }
 
 		/// <summary>
 		/// method to update the camera bounds and scale the scene
@@ -426,11 +456,16 @@ namespace FShangarExtender
 					}
 
 					Debugger.advancedDebug("update Button", _advancedDebug);
-					if (_toolbarButton != null && _extendIcon != null)
+#if false
+                    if (_toolbarButton != null && _extendIcon != null)
 					{
 						_toolbarButton.SetTexture(_extendIcon);
 					}
-
+#endif
+                    if (toolbarControl != null)
+                    {
+                        toolbarControl.SetTexture(Constants.extentIconFileName + "_38", Constants.extentIconFileName + "_24");
+                    }
 					Debugger.advancedDebug("shrink scene complete", _advancedDebug);
 				}
 				else
@@ -536,12 +571,17 @@ namespace FShangarExtender
 					}
 
 					Debugger.advancedDebug("update Button", _advancedDebug);
-					if (_toolbarButton != null && _shrinkIcon != null)
+#if false
+                    if (_toolbarButton != null && _shrinkIcon != null)
 					{
 						_toolbarButton.SetTexture(_shrinkIcon);
 					}
-
-					Debugger.advancedDebug("extend scene complete", _advancedDebug);
+#endif
+                    if (toolbarControl != null)
+                    {
+                        toolbarControl.SetTexture(Constants.shrinkIconFileName + "_38", Constants.shrinkIconFileName + "_24");
+                    }
+                    Debugger.advancedDebug("extend scene complete", _advancedDebug);
 				}
 				_sceneScaled = !_sceneScaled;
 			}

@@ -5,8 +5,8 @@ rem Set variables here
 
 set H=R:\KSP_1.3.1_dev
 set GAMEDIR=FShangarExtender
-rem set LICENSE=License.txt
-rem set README=README.md
+set LICENSE=License.txt
+set README=README.md
 
 set RELEASEDIR=d:\Users\jbb\release
 set ZIP="c:\Program Files\7-zip\7z.exe"
