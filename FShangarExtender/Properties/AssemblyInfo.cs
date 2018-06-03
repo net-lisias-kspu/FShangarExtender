@@ -34,3 +34,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyVersion("3.4.9.3")]
 [assembly: AssemblyFileVersion("3.5.0.0")]
+
+[assembly: KSPAssemblyDependency("ToolbarController", 1, 0)]
