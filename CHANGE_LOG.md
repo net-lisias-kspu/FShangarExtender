@@ -1,5 +1,7 @@
 # Hangar Extender :: Change Log
 
+* 2016-1010: 3.4.9 (Alewx) for KSP 1.2
+	+ Recompiled for KSP 1.2
 * 2016-0421: 3.4.8 (Alewx) for KSP 1.1
 	+ Hangar now hides by default as the model is no longer scaling. 
 * 2016-0403: 3.4.7 (Alewx) for KSP 1.1.0 Beta
