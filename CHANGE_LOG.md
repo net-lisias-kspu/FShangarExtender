@@ -1,5 +1,9 @@
 # Hangar Extender :: Change Log
 
+* 2017-0701: 3.5.0 (linuxgurugamer) for KSP 1.2
+	+ Adoption by LinuxGuruGamer
+	+ Removed settings file
+	+ Added Settings Page
 * 2016-1010: 3.4.9 (Alewx) for KSP 1.2
 	+ Recompiled for KSP 1.2
 * 2016-0421: 3.4.8 (Alewx) for KSP 1.1
