@@ -1,5 +1,8 @@
 # Hangar Extender :: Change Log
 
+* 2015-1111: 3.4.6 (Alewx) for KSP 1.0.5
+	+ Recompiled for KSP 1.0.5
+	+ Fixed nullpointer at scene leaving
 * 2015-1011: 3.4.5 (Alewx) for KSP 1.0.4
 	+ Added stock toolbar button for the Hangar extender
 	+ Slightly improved Hangar hiding (far from perfect)
