@@ -1,5 +1,7 @@
 # Hangar Extender :: Change Log
 
+* 2015-0906: 3.4.3 (Alewx) for KSP 1.0.4
+	+ reduced possible bugs at Scene changes and after Scene reentries 
 * 2015-0905: 3.4.2 (Alewx) for KSP 1.0.4 (No Binary)
 	+ fixed a bug that would stuck all part palcements and the camera
 * 2015-0905: 3.4.1 (Alewx) for KSP 1.0.4
