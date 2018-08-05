@@ -1,20 +1,33 @@
 {
-  "NAME": "FShangarExtender",
-  "URL": "http://ksp.spacetux.net/avc/FShangarExtender",
-  "VERSION": {
-    "MAJOR": 3,
-    "MINOR": 5,
-    "PATCH": 3,
-    "BUILD": 5
-  },
-  "KSP_VERSION": {
-    "MAJOR": 1,
-    "MINOR": 5,
-    "PATCH": 1
-  },
-  "KSP_VERSION_MIN": {
-    "MAJOR": 1,
-    "MINOR": 5,
-    "PATCH": 1
-  }
+	"NAME":		"FShangarExtender Unofficial",
+	"URL":		"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/FMRS.version",
+	"DOWNLOAD":	"https://github.com/net-lisias-kspu/FShangarExtender/releases".
+	"CHANGE_LOG":	"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGE_LOG.md",
+	"CHANGE_LOG_URL":"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGES.md",
+	"GITHUB": {
+		"USERNAME": "net-lisias-kspu",
+		"REPOSITORY": "FShangarExtender"
+		"ALLOW_PRE_RELEASE":false
+		},
+	"VERSION":{
+		"MAJOR":3,
+		"MINOR":5,
+		"PATCH":3,
+		"BUILD":2
+		},
+	"KSP_VERSION":{
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":1
+		},
+	"KSP_VERSION_MIN":{
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":1
+		},
+	"KSP_VERSION_MAX":{
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":99
+		}
 }

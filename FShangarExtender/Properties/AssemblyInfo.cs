@@ -31,8 +31,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-//[assembly: AssemblyVersion("3.4.9.3")]
-[assembly: AssemblyFileVersion("3.5.0.0")]
+[assembly: AssemblyVersion(FShangarExtender.Version.Number)]
+[assembly: AssemblyFileVersion(FShangarExtender.Version.Number)]
 
 [assembly: KSPAssemblyDependency("ToolbarController", 1, 0)]
