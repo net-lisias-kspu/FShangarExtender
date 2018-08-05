@@ -1,5 +1,9 @@
 # Hangar Extender :: Change Log
 
+* 2017-0923: 3.5.1 (linuxgurugamer) for KSP 1.2
+	+ Fixed hotkey selection on settings page
+	+ Updated to VS2017
+	+ Changed .version URL to point to Github
 * 2017-0701: 3.5.0 (linuxgurugamer) for KSP 1.2
 	+ Adoption by LinuxGuruGamer
 	+ Removed settings file
