@@ -1,5 +1,10 @@
 # Hangar Extender :: Change Log
 
+* 2015-0905: 3.4 (Alewx) for KSP 1.0.4
+	+ improved compatibility for 1.0.4
+	+ added the visual scaling of the building
+	+ updated settingsfile to work with single factor for scaling
+	+ scaling is read from config but limited to 10 as a maximum 
 * 2015-0420: 3.3 (Snjo) for KSP 1.0
 	+ Enabled config values for camera max distance and work area. Check settings.txt
 	+ Defaults are now lower than before to avoid too high cam distance when entering the editor.
