@@ -1,5 +1,9 @@
 # Hangar Extender :: Change Log
 
+* 2016-0403: 3.4.7 (Alewx) for KSP 1.1.0 Beta
+	+ adapted for KSP 1.1.0 Beta
+	+ Known Issue
+		- parts of the Hangar do no longer scale properly with the rest of the scene
 * 2015-1111: 3.4.6 (Alewx) for KSP 1.0.5
 	+ Recompiled for KSP 1.0.5
 	+ Fixed nullpointer at scene leaving
