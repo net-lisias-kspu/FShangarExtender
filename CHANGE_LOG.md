@@ -1,5 +1,7 @@
 # Hangar Extender :: Change Log
 
+* 2015-0905: 3.4.1 (Alewx) for KSP 1.0.4
+	+ Fixed a bug in SPH scaling 
 * 2015-0905: 3.4 (Alewx) for KSP 1.0.4
 	+ improved compatibility for 1.0.4
 	+ added the visual scaling of the building
