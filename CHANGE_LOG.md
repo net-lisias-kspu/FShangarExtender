@@ -1,5 +1,8 @@
 # Hangar Extender :: Change Log
 
+* 2018-0324: 3.5.3 (linuxgurugamer) for KSP 1.4.1
+	+ Updated for 1.4.1
+	+ Added support for the Toolbar Controller
 * 2017-1008: 3.5.2 (linuxgurugamer) for KSP 1.3.1
 	+ Updated for ksp 1.3.1
 * 2017-0923: 3.5.1 (linuxgurugamer) for KSP 1.2
