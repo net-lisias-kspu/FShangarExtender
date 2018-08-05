@@ -1,5 +1,8 @@
 # Hangar Extender :: Change Log
 
+* 2015-0420: 3.3 (Snjo) for KSP 1.0
+	+ Enabled config values for camera max distance and work area. Check settings.txt
+	+ Defaults are now lower than before to avoid too high cam distance when entering the editor.
 * 2015-0307: 3.2 (Snjo) for KSP 0.90
 	+ Fixed camera max zoom distance not being set. Stayed at default 35m, Now 1000m.
 * 2015-0307: 3.1 (Snjo) for KSP 0.90
