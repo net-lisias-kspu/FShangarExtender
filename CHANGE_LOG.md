@@ -1,5 +1,10 @@
 # Hangar Extender :: Change Log
 
+* 2015-0307: 3.1 (Snjo) for KSP 0.90
+	+ If the work area and camera movement stays small after loading the SPH/VAB, press the hotkey to reattempt the fix.
+	+ The default hotkey is Numpad *. This key is reconfigurable in settings.txt.
+	+ For the custom key to work, the settings.txt file MUST be placed in GameData\FShangarExtender\settings.txt
+	+ The reason the scaling sometimes doesn't happen is probably due to timing between the scaling attempts and the speed the game loads the scene and settings.
 * 2015-0201: 3.0 (Snjo) for KSP 0.90
 	+ Rebuilt with code from NathanKell
 	+ camera and work area scales
