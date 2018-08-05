@@ -1,5 +1,7 @@
 # Hangar Extender :: Change Log
 
+* 2015-0307: 3.2 (Snjo) for KSP 0.90
+	+ Fixed camera max zoom distance not being set. Stayed at default 35m, Now 1000m.
 * 2015-0307: 3.1 (Snjo) for KSP 0.90
 	+ If the work area and camera movement stays small after loading the SPH/VAB, press the hotkey to reattempt the fix.
 	+ The default hotkey is Numpad *. This key is reconfigurable in settings.txt.
