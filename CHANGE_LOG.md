@@ -1,0 +1,24 @@
+# 
+
+3.5.0
+	Adoption by LinuxGuruGamer
+	Removed settings file
+	Added Settings Page
+
+3.5.1
+	Fixed hotkey selection on settings page
+	Updated to VS2017
+	Changed .version URL to point to Github
+
+3.5.2
+	Updated for ksp 1.3.1
+
+3.5.3
+	Updated for 1.4.1
+	Added support for the Toolbar Controller
+
+3.5.3.1
+	updated version file to support 1.4.1-1.4.99
+
+3.5.3.2
+	Added dependency check for toolbarcontroller
