@@ -1,5 +1,9 @@
 # Hangar Extender :: Change Log
 
+* 2015-0918: 3.4.4 (Alewx) for KSP 1.0.4
+	+ added option to hide hangars in the editor
+	+ added option to enable advanced debugging (minature performance improvement / log clearance)
+	+ minimum zoom distance is increased by the scalingFactor 
 * 2015-0906: 3.4.3 (Alewx) for KSP 1.0.4
 	+ reduced possible bugs at Scene changes and after Scene reentries 
 * 2015-0905: 3.4.2 (Alewx) for KSP 1.0.4 (No Binary)
