@@ -1,7 +1,7 @@
 .vs
 bin
 */obj
-*/Version.cs
+**/Properties/Version.cs
 Archive
 GameData/**/Plugins/*.dll
 GameData/**/CHANGE_LOG.md
