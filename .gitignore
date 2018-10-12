@@ -1,6 +1,6 @@
 .vs
 bin
-*/obj
+obj
 **/Properties/Version.cs
 Archive
 GameData/**/Plugins/*.dll

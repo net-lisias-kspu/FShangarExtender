@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4B2C871D-AA4E-4017-89B9-575A77F08ED3}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <BaseIntermediateOutputPath>..\..\obj</BaseIntermediateOutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FShangarExtender</RootNamespace>
     <AssemblyName>FShangarExtender</AssemblyName>
@@ -17,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -68,16 +69,16 @@
       <HintPath>R:\KSP_1.6.1_dev\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
     <Reference Include="System" />
     <Reference Include="ToolbarControl">
-      <HintPath>..\..\..\..\LIB\plugins\ToolbarControl.dll</HintPath>
+      <HintPath>..\..\..\..\..\LIB\plugins\ToolbarControl.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\LIB\managed\1.4.1\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\LIB\managed\1.4.1\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\LIB\managed\1.4.1\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\..\LIB\managed\1.4.1\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
