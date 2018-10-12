@@ -1,9 +1,9 @@
 {
-	"NAME":		"FShangarExtender Unofficial",
-	"URL":		"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/FMRS.version",
-	"DOWNLOAD":	"https://github.com/net-lisias-kspu/FShangarExtender/releases".
-	"CHANGE_LOG":	"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGE_LOG.md",
-	"CHANGE_LOG_URL":"https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGES.md",
+	"NAME"		: "FShangarExtender Unofficial",
+	"URL"		: "https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/FMRS.version",
+	"DOWNLOAD"	: "https://github.com/net-lisias-kspu/FShangarExtender/releases".
+	"CHANGE_LOG"	: "https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGE_LOG.md",
+	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/net-lisias-kspu/FShangarExtender/master/CHANGES.md",
 	"GITHUB": {
 		"USERNAME": "net-lisias-kspu",
 		"REPOSITORY": "FShangarExtender"
