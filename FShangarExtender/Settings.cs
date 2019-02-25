@@ -142,7 +142,6 @@ namespace FShangarExtender
                 HangerExtenderSelectHotKey gui = MapView.MapCamera.gameObject.GetComponent<HangerExtenderSelectHotKey>();
                 if (gui == null)
                 {
-                    Debug.Log("Adding HangerExtenderSelectHotKey");
                     gui = MapView.MapCamera.gameObject.AddComponent<HangerExtenderSelectHotKey>();
                 }
                 if (HangerExtenderSelectHotKey.Instance != null)

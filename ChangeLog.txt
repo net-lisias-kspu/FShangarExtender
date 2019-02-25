@@ -23,3 +23,6 @@
 
 3.5.3.3
 	Version bump for 1.5 rebuild
+
+3.5.3.5
+	Fixed nullrefs when trying to use this mod after switching editor screens

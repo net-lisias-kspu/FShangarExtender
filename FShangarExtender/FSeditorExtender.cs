@@ -81,14 +81,30 @@ namespace FShangarExtender
 		/// </summary>
 		public void Start()
 		{
-			if (_sceneScaled)
+            if (_sceneScaled)
 			{
 				StartCoroutine(toggleScaling());
 			}
 			resetMod();
 			StartCoroutine(initFSHangarExtender());
 			loadToolbarButton();
+            EditorLogic.fetch.switchEditorBtn.onClick.AddListener(() => { switchEditorBtn(); });
+            
 		}
+
+        void switchEditorBtn()
+        {
+            _sceneNodes.Clear();
+            _hangarNodes.Clear();
+            _nonScalingNodes.Clear();
+            _sceneLights.Clear();
+            _vabCameras.Clear();
+            _sphCameras.Clear();
+            _sceneScaled = false;
+            _hangarExtenderReady = false;
+            _isFirstUpdate = true;
+            StartCoroutine(initFSHangarExtender(2f));
+        }
 
         static KeyCode _lastKeyPressed = KeyCode.None;
         /// <summary>
@@ -100,6 +116,7 @@ namespace FShangarExtender
 			{
                 if (Event.current.isKey)
                     _lastKeyPressed = Event.current.keyCode;
+
                 bool gotKeyPress = rescaleKeyPressed();
 				if ((_isFirstUpdate && HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().BuildingStartMaxSize) || gotKeyPress)
 				{
@@ -212,16 +229,15 @@ namespace FShangarExtender
 		/// </summary>
 		public void loadToolbarButton()
 		{
-			Debugger.advancedDebug("Applauncher loading up", true);
 			if (_extendIcon == null)
 			{
 				_extendIcon = GameDatabase.Instance.GetTexture(Constants.extentIconFileName + "_38", false);
-				Debugger.advancedDebug("Applauncher icon 1 found", true);
+
 			}
 			if (_shrinkIcon == null)
 			{
 				_shrinkIcon = GameDatabase.Instance.GetTexture(Constants.shrinkIconFileName + "_38", false);
-				Debugger.advancedDebug("Applauncher icon 2 found", true);
+
 			}
 #if false
             if (_toolbarButton == null)
@@ -304,11 +320,11 @@ namespace FShangarExtender
 		/// method to initalize the whole Extender
 		/// </summary>
 		/// <returns></returns>
-		private IEnumerator<YieldInstruction> initFSHangarExtender()
+		private IEnumerator<YieldInstruction> initFSHangarExtender(float delay = 0)
 		{
-			Debugger.advancedDebug(Constants.debugVersion+" Starting Up", true);
+            if (delay != 0)
+                yield return new WaitForSeconds(delay);
 			getSettings();
-			Debugger.advancedDebug("Attempting to init", true);
 			while ((object)EditorBounds.Instance == null && HighLogic.LoadedScene == GameScenes.EDITOR)
 			{
 				_hangarExtenderReady = false;
@@ -525,7 +541,7 @@ namespace FShangarExtender
 						}
 						Debugger.advancedDebug("hide Hangars complete", _advancedDebug);
 					}
-					Debugger.advancedDebug("Dettach Nodes", _advancedDebug);
+					Debugger.advancedDebug("Detach Nodes", _advancedDebug);
 					if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
 					{
 						foreach (Node n in _nonScalingNodes)
