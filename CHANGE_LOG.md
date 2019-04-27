@@ -1,5 +1,11 @@
 # Hangar Extender :: Change Log
 
+* 2019-0225: 3.5.3.5 (linuxgurugamer) for KSP 1.6.1
+	+ Fixed nullrefs when trying to use this mod after switching editor screens
+* 2019-0109: 3.5.3.4 (linuxgurugamer) for KSP 1.6.0
+	+ No changelog provided
+* 2018-1024: 3.5.3.3 (linuxgurugamer) for KSP 1.5.1
+	+ Version bump for 1.5 rebuild
 * 2018-0603: 3.5.3.2 (linuxgurugamer) for KSP 1.4.x
 	+ Added dependency check for toolbarcontroller
 * 2018-0330: 3.5.3.1 (linuxgurugamer) for KSP 1.4.x
