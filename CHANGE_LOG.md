@@ -1,5 +1,7 @@
 # Hangar Extender :: Change Log
 
+* 2018-1024: 3.5.3.3 (linuxgurugamer) for KSP 1.5.1
+	+ Version bump for 1.5 rebuild
 * 2018-0603: 3.5.3.2 (linuxgurugamer) for KSP 1.4.x
 	+ Added dependency check for toolbarcontroller
 * 2018-0330: 3.5.3.1 (linuxgurugamer) for KSP 1.4.x
