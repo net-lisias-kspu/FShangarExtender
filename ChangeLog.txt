@@ -26,3 +26,7 @@
 
 3.5.3.5
 	Fixed nullrefs when trying to use this mod after switching editor screens
+
+3.5.4
+	Updated usage of toolbarController, now uses the toolbar registration
+	Removed Blizzy setting, now controlled by the toolbar Controller
