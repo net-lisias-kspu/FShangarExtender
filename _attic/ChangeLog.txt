@@ -1,3 +1,5 @@
+ChangeLog
+
 3.5.0
 	Adoption by LinuxGuruGamer
 	Removed settings file
@@ -26,3 +28,15 @@
 
 3.5.3.5
 	Fixed nullrefs when trying to use this mod after switching editor screens
+
+3.5.4
+	Updated usage of toolbarController, now uses the toolbar registration
+	Removed Blizzy setting, now controlled by the toolbar Controller
+
+3.5.5
+	version bump for 1.7.2
+	Updated AssemblyVersion.tt
+
+3.6
+	Added InstallChecker
+	Updated for KSP 1.8

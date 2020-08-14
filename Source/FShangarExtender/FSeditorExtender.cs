@@ -128,8 +128,8 @@ namespace FShangarExtender
 		}
         void OnGUI()
         {
-            if (toolbarControl != null)
-                toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
+            //if (toolbarControl != null)
+            //    toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
         }
 
         /// <summary>
@@ -250,15 +250,17 @@ namespace FShangarExtender
             toolbarControl = gameObject.AddComponent<ToolbarControl>();
             toolbarControl.AddToAllToolbars(ToggleScalingRoutine, ToggleScalingRoutine,
                 ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                "FSeditorExtender_NS",
+                MODID,
                 "fsEditorExtenderButton",
                 Constants.extentIconFileName + "_38",
                 Constants.extentIconFileName + "_24",
-                "FS Editor Extender"
+                MODNAME
             );
-            toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
+            //toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
         }
 
+        internal const string MODID = "FSeditorExtender_NS";
+        internal const string MODNAME = "FS Editor Extender";
 
         /// <summary>
         /// method to completly reset the whole mod
