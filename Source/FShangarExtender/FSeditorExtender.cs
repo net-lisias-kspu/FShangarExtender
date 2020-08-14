@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using KSP;
-using KSP.UI;
 using KSP.UI.Screens;
 using System.IO;
 using ToolbarControl_NS;
@@ -29,7 +25,6 @@ namespace FShangarExtender
 		private bool _sceneScaled = false;
 		private static float _scalingFactor = Constants.defaultScaleFactor;
 		//private static bool _hideHangars = false;
-		private static bool _advancedDebug = false;
 		private bool _hangarExtenderReady = false;
         //private ApplicationLauncherButton _toolbarButton;
         ToolbarControl toolbarControl;
@@ -120,7 +115,7 @@ namespace FShangarExtender
                 bool gotKeyPress = rescaleKeyPressed();
 				if ((_isFirstUpdate && HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().BuildingStartMaxSize) || gotKeyPress)
 				{
-					Debugger.advancedDebug("Scaling Hangar Geometry", _advancedDebug);
+					Log.detail("Scaling Hangar Geometry");
 					StartCoroutine(toggleScaling());
 				}
 				_isFirstUpdate = false;
@@ -142,7 +137,7 @@ namespace FShangarExtender
 				StartCoroutine(toggleScaling());
 			}
 			resetMod();
-			Debugger.advancedDebug("cleared the lists", _advancedDebug);
+			Log.detail("cleared the lists");
 		}
 
 
@@ -244,23 +239,20 @@ namespace FShangarExtender
 			{
 				_toolbarButton = ApplicationLauncher.Instance.AddModApplication(() => StartCoroutine(toggleScaling()), () => StartCoroutine(toggleScaling()),
             null, null, null, null, ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, _extendIcon);
-				Debugger.advancedDebug("Applauncher loading complete", true);
+				Log.info("Applauncher loading complete");
 			}
 #endif
             toolbarControl = gameObject.AddComponent<ToolbarControl>();
             toolbarControl.AddToAllToolbars(ToggleScalingRoutine, ToggleScalingRoutine,
                 ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                MODID,
+                Constants.MODID,
                 "fsEditorExtenderButton",
                 Constants.extentIconFileName + "_38",
                 Constants.extentIconFileName + "_24",
-                MODNAME
+                Constants.MODNAME
             );
             //toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
         }
-
-        internal const string MODID = "FSeditorExtender_NS";
-        internal const string MODNAME = "FS Editor Extender";
 
         /// <summary>
         /// method to completly reset the whole mod
@@ -347,10 +339,10 @@ namespace FShangarExtender
 			listNodes();
 			_hangarExtenderReady = true;
 			_sceneScaled = false;
-			Debugger.advancedDebug("Attempting to init successful", true);
-			Debugger.advancedDebug("Editor camera set to Min = " + EditorBounds.Instance.cameraMinDistance + " Max = " + EditorBounds.Instance.cameraMaxDistance + " Start = " + EditorBounds.Instance.cameraStartDistance, _advancedDebug);
-			Debugger.advancedDebug("EditorBounds.Instance.constructionBounds.center = " + EditorBounds.Instance.constructionBounds.center + " EditorBounds.Instance.constructionBounds.extents = (" + EditorBounds.Instance.constructionBounds.extents.x + " , " + EditorBounds.Instance.constructionBounds.extents.y + " , " + EditorBounds.Instance.constructionBounds.extents.z + ")", _advancedDebug);
-			Debugger.advancedDebug("EditorBounds.Instance.cameraOffsetBounds.center = " + EditorBounds.Instance.cameraOffsetBounds.center + " EditorBounds.Instance.cameraOffsetBounds.extents = (" + EditorBounds.Instance.cameraOffsetBounds.extents.x + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.y + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.z + ")", _advancedDebug);
+			Log.info("Attempting to init successful");
+			Log.detail("Editor camera set to Min = {0} Max = {1} Start = {2}", EditorBounds.Instance.cameraMinDistance, EditorBounds.Instance.cameraMaxDistance, EditorBounds.Instance.cameraStartDistance);
+			Log.detail("EditorBounds.Instance.constructionBounds.center = {0} EditorBounds.Instance.constructionBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.constructionBounds.center, EditorBounds.Instance.constructionBounds.extents.x, EditorBounds.Instance.constructionBounds.extents.y, EditorBounds.Instance.constructionBounds.extents.z);
+			Log.detail("EditorBounds.Instance.cameraOffsetBounds.center = {0} EditorBounds.Instance.cameraOffsetBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.cameraOffsetBounds.center, EditorBounds.Instance.cameraOffsetBounds.extents.x, EditorBounds.Instance.cameraOffsetBounds.extents.y, EditorBounds.Instance.cameraOffsetBounds.extents.z);
 		}
 
         void ToggleScalingRoutine()
@@ -364,7 +356,7 @@ namespace FShangarExtender
 		/// <returns></returns>
 		private IEnumerator<YieldInstruction> toggleScaling() // code taken from NathanKell, https://github.com/NathanKell/RealSolarSystem/blob/master/Source/CameraFixer.cs
 		{
-			Debugger.advancedDebug("Attempting work area scaling", _advancedDebug);
+			Log.detail("Attempting work area scaling");
 			while ((object)EditorBounds.Instance == null)
 			{
 				yield return null;
@@ -373,12 +365,12 @@ namespace FShangarExtender
 			{
 				if (_sceneScaled)
 				{
-					Debugger.advancedDebug("shrink scene", _advancedDebug);
+					Log.detail("shrink scene");
 
 					EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends));
 					EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends));
 					EditorBounds.Instance.cameraMaxDistance /= _scalingFactor;
-					Debugger.advancedDebug("Bounds scaled", _advancedDebug);
+					Log.detail("Bounds scaled");
 
 
 					sceneCamera.farClipPlane /= _scalingFactor * 2;
@@ -391,7 +383,7 @@ namespace FShangarExtender
 						c.maxHeight /= _scalingFactor;
 						c.maxDistance /= _scalingFactor;
 					}
-					Debugger.advancedDebug("vabCameras scaled", _advancedDebug);
+					Log.detail("vabCameras scaled");
 					foreach (SPHCamera c in _sphCameras)
 					{
 						c.maxHeight /= _scalingFactor;
@@ -399,19 +391,19 @@ namespace FShangarExtender
 						c.maxDisplaceX /= _scalingFactor;
 						c.maxDisplaceZ /= _scalingFactor;
 					}
-					Debugger.advancedDebug("sphCameras scaled", _advancedDebug);
+					Log.detail("sphCameras scaled");
 
 
 					RenderSettings.fogStartDistance /= _scalingFactor;
 					RenderSettings.fogEndDistance /= _scalingFactor;
 
-					Debugger.advancedDebug("scale Hangars", _advancedDebug);
+					Log.detail("scale Hangars");
 					if (_hangarNodes != null && _hangarNodes.Count > 0)
 					{
 						foreach (Node n in _hangarNodes)
 						{
 							n.transform.localScale = n.defaultScaling;
-							Debugger.advancedDebug("scaleing Hangar" + n.transform.name, _advancedDebug);
+							Log.detail("scaleing Hangar {0}", n.transform.name);
 						}
 					}
 					//Debugger.advancedDebug("scale Scene", _advancedDebug);
@@ -423,17 +415,17 @@ namespace FShangarExtender
 					//		Debugger.advancedDebug("scaleing Scene" + n.transform.name, _advancedDebug);
 					//	}
 					//}
-					Debugger.advancedDebug("attach Nodes", _advancedDebug);
+					Log.detail("attach Nodes");
 					if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
 					{
 						foreach (Node n in _nonScalingNodes)
 						{
 							n.transform.parent = n.originalParent;
 							n.transform.localScale = n.defaultScaling;
-							Debugger.advancedDebug("Reattaching Node" + n.transform.name, _advancedDebug);
+							Log.detail("Reattaching Node {0}", n.transform.name);
 						}
 					}
-					Debugger.advancedDebug("scale lights", _advancedDebug);
+					Log.detail("scale lights");
 					if (_sceneLights != null && _sceneLights.Count > 0)
 					{
 						foreach (Light l in _sceneLights)
@@ -443,7 +435,7 @@ namespace FShangarExtender
 								if (l.type == LightType.Spot)
 								{
 									l.range /= _scalingFactor;
-									Debugger.advancedDebug("scaling light", _advancedDebug);
+									Log.detail("scaling light");
 								}
 							}
 						}
@@ -451,7 +443,7 @@ namespace FShangarExtender
 
 					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 					{
-						Debugger.advancedDebug("hide Hangars", _advancedDebug);
+						Log.detail("hide Hangars");
 						if (_hangarNodes != null && _hangarNodes.Count > 0)
 						{
 							foreach (Node n in _hangarNodes)
@@ -470,10 +462,10 @@ namespace FShangarExtender
 								}
 							}
 						}
-						Debugger.advancedDebug("hide Hangars complete", _advancedDebug);
+						Log.detail("hide Hangars complete");
 					}
 
-					Debugger.advancedDebug("update Button", _advancedDebug);
+					Log.detail("update Button");
 #if false
                     if (_toolbarButton != null && _extendIcon != null)
 					{
@@ -484,16 +476,16 @@ namespace FShangarExtender
                     {
                         toolbarControl.SetTexture(Constants.extentIconFileName + "_38", Constants.extentIconFileName + "_24");
                     }
-					Debugger.advancedDebug("shrink scene complete", _advancedDebug);
+					Log.detail("shrink scene complete");
 				}
 				else
 				{
-					Debugger.advancedDebug("extend scene", _advancedDebug);
+					Log.detail("extend scene");
 
 					EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends * _scalingFactor));
 					EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends * _scalingFactor));
 					EditorBounds.Instance.cameraMaxDistance *= _scalingFactor;
-					Debugger.advancedDebug("Bounds scaled", _advancedDebug);
+					Log.detail("Bounds scaled");
 
 
 					sceneCamera.farClipPlane *= _scalingFactor * 2;
@@ -506,7 +498,7 @@ namespace FShangarExtender
 						c.maxHeight *= _scalingFactor;
 						c.maxDistance *= _scalingFactor;
 					}
-					Debugger.advancedDebug("vabCameras scaled", _advancedDebug);
+					Log.detail("vabCameras scaled");
 					foreach (SPHCamera c in _sphCameras)
 					{
 						c.maxHeight *= _scalingFactor;
@@ -514,7 +506,7 @@ namespace FShangarExtender
 						c.maxDisplaceX *= _scalingFactor;
 						c.maxDisplaceZ *= _scalingFactor;
 					}
-					Debugger.advancedDebug("sphCameras scaled", _advancedDebug);
+					Log.detail("sphCameras scaled");
 
 
 					RenderSettings.fogStartDistance *= _scalingFactor;
@@ -522,7 +514,7 @@ namespace FShangarExtender
 
 					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 					{
-						Debugger.advancedDebug("hide Hangars", _advancedDebug);
+						Log.detail("hide Hangars");
 						if (_hangarNodes != null && _hangarNodes.Count > 0)
 						{
 							foreach (Node n in _hangarNodes)
@@ -541,25 +533,25 @@ namespace FShangarExtender
 								}
 							}
 						}
-						Debugger.advancedDebug("hide Hangars complete", _advancedDebug);
+						Log.detail("hide Hangars complete");
 					}
-					Debugger.advancedDebug("Detach Nodes", _advancedDebug);
+					Log.detail("Detach Nodes");
 					if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
 					{
 						foreach (Node n in _nonScalingNodes)
 						{
 							n.transform.parent = _tempParent;
 							n.transform.localScale = n.defaultScaling;
-							Debugger.advancedDebug("Dettaching Node - " + n.transform.name, _advancedDebug);
+							Log.detail("Dettaching Node - {0}", n.transform.name);
 						}
 					}
-					Debugger.advancedDebug("scale Hangar", _advancedDebug);
+					Log.detail("scale Hangar");
 					if (_hangarNodes != null && _hangarNodes.Count > 0)
 					{
 						foreach (Node n in _hangarNodes)
 						{
 							n.transform.localScale = n.defaultScaling * _scalingFactor;
-							Debugger.advancedDebug("scaleing HangarNode - " + n.transform.name, _advancedDebug);
+							Log.detail("scaleing HangarNode - {0}", n.transform.name);
 						}
 					}
 					//Debugger.advancedDebug("scale Scene", _advancedDebug);
@@ -572,7 +564,7 @@ namespace FShangarExtender
 					//	}
 					//}
 
-					Debugger.advancedDebug("scale lights", _advancedDebug);
+					Log.detail("scale lights");
 					if (_sceneLights != null && _sceneLights.Count > 0)
 					{
 						foreach (Light l in _sceneLights)
@@ -582,13 +574,13 @@ namespace FShangarExtender
 								if (l.type == LightType.Spot)
 								{
 									l.range *= _scalingFactor;
-									Debugger.advancedDebug("scaling light", _advancedDebug);
+									Log.detail("scaling light");
 								}
 							}
 						}
 					}
 
-					Debugger.advancedDebug("update Button", _advancedDebug);
+					Log.detail("update Button");
 #if false
                     if (_toolbarButton != null && _shrinkIcon != null)
 					{
@@ -599,14 +591,14 @@ namespace FShangarExtender
                     {
                         toolbarControl.SetTexture(Constants.shrinkIconFileName + "_38", Constants.shrinkIconFileName + "_24");
                     }
-                    Debugger.advancedDebug("extend scene complete", _advancedDebug);
+                    Log.detail("extend scene complete");
 				}
 				_sceneScaled = !_sceneScaled;
 			}
-			Debugger.advancedDebug("Attempting work area scaling complete", _advancedDebug);
-			Debugger.advancedDebug("Editor camera set to Min = " + EditorBounds.Instance.cameraMinDistance + " Max = " + EditorBounds.Instance.cameraMaxDistance + " Start = " + EditorBounds.Instance.cameraStartDistance, _advancedDebug);
-			Debugger.advancedDebug("EditorBounds.Instance.constructionBounds.center = " + EditorBounds.Instance.constructionBounds.center + " EditorBounds.Instance.constructionBounds.extents = (" + EditorBounds.Instance.constructionBounds.extents.x + " , " + EditorBounds.Instance.constructionBounds.extents.y + " , " + EditorBounds.Instance.constructionBounds.extents.z + ")", _advancedDebug);
-			Debugger.advancedDebug("EditorBounds.Instance.cameraOffsetBounds.center = " + EditorBounds.Instance.cameraOffsetBounds.center + " EditorBounds.Instance.cameraOffsetBounds.extents = (" + EditorBounds.Instance.cameraOffsetBounds.extents.x + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.y + " , " + EditorBounds.Instance.cameraOffsetBounds.extents.z + ")", _advancedDebug);
+			Log.detail("Attempting work area scaling complete");
+			Log.detail("Editor camera set to Min = {0} Max = {1} Start = {2}" + EditorBounds.Instance.cameraMinDistance, EditorBounds.Instance.cameraMaxDistance, EditorBounds.Instance.cameraStartDistance);
+			Log.detail("EditorBounds.Instance.constructionBounds.center = {0} EditorBounds.Instance.constructionBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.constructionBounds.center, EditorBounds.Instance.constructionBounds.extents.x, EditorBounds.Instance.constructionBounds.extents.y, EditorBounds.Instance.constructionBounds.extents.z);
+			Log.detail("EditorBounds.Instance.cameraOffsetBounds.center = {0} EditorBounds.Instance.cameraOffsetBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.cameraOffsetBounds.center, EditorBounds.Instance.cameraOffsetBounds.extents.x, EditorBounds.Instance.cameraOffsetBounds.extents.y, EditorBounds.Instance.cameraOffsetBounds.extents.z);
 		}
 
 
@@ -649,7 +641,7 @@ namespace FShangarExtender
 		/// </summary>
 		private static void listNodes()
 		{
-			Debugger.advancedDebug("listNodes started", true);
+			Log.info("listNodes started");
 			List<Transform> rootNodes = new List<Transform>();
 			foreach (Transform t in UnityEngine.Object.FindObjectsOfType<Transform>())
 			{
@@ -667,10 +659,10 @@ namespace FShangarExtender
 			{
 				foreach(Transform ct in t)
 				{
-					Debugger.advancedDebug(t.name + " --- " + ct.name, true);
+					Log.info("{0} --- {1}", t.name, ct.name);
 				}
 			}
-			Debugger.advancedDebug("listNodes finished", true);
+			Log.detail("listNodes finished");
 		}
 
 
@@ -679,7 +671,7 @@ namespace FShangarExtender
 		/// </summary>
 		private static void listNodesAdvanced()
 		{
-			Debugger.advancedDebug("listNodesAdvanced started", true);
+			Log.info("listNodesAdvanced started");
 			List<Transform> rootNodes = new List<Transform>();
 			foreach (Transform t in UnityEngine.Object.FindObjectsOfType<Transform>())
 			{
@@ -693,7 +685,7 @@ namespace FShangarExtender
 					rootNodes.Add(newTransform);
 				}
 			}
-			Debugger.advancedDebug("listNodesAdvanced finished", true);
+			Log.info("listNodesAdvanced finished");
 		}
 
 
@@ -705,7 +697,7 @@ namespace FShangarExtender
 			_sceneLights = ((Light[])FindObjectsOfType(typeof(Light))).ToList();
 			foreach (Light l in _sceneLights)
 			{
-				Debugger.advancedDebug("Light = " + l.name + " - Type = " + l.type + " - Intensity = " + l.intensity, _advancedDebug);
+				Log.detail("Light = {0} - Type = {1} - Intensity = {2}" + l.name, l.type, l.intensity);
 			}
 		}
 
@@ -715,7 +707,7 @@ namespace FShangarExtender
 		/// </summary>
 		private void fetchSceneNodes()
 		{
-			Debugger.advancedDebug("fetchSceneNodes Nodes found = " + UnityEngine.Object.FindObjectsOfType<Transform>().Length, _advancedDebug);
+			Log.detail("fetchSceneNodes Nodes found = {0}", UnityEngine.Object.FindObjectsOfType<Transform>().Length);
 			List<Transform> rootNodes = new List<Transform>();
 			_hangarNodes.Clear();
 			_sceneNodes.Clear();
@@ -738,7 +730,7 @@ namespace FShangarExtender
 					rootNodes.Add(newTransform);
 				}
 			}
-			Debugger.advancedDebug("root nodes collected", _advancedDebug);
+			Log.detail("root nodes collected");
 
 			foreach (Transform t in rootNodes)
 			{
@@ -753,7 +745,7 @@ namespace FShangarExtender
 							newNode.originalParent = t.parent;
 							newNode.defaultScaling = t.localScale;
 							_hangarNodes.Add(newNode);
-							Debugger.advancedDebug("found new hangar node: " + t.name, _advancedDebug);
+							Log.detail("found new hangar node: {0}", t.name);
 							break;
 						}
 					}
@@ -769,7 +761,7 @@ namespace FShangarExtender
 							newNode.originalParent = t.parent;
 							newNode.defaultScaling = t.localScale;
 							_sceneNodes.Add(newNode);
-							Debugger.advancedDebug("found new scene node: " + t.name, _advancedDebug);
+							Log.detail("found new scene node: {0}", t.name);
 							break;
 						}
 					}
@@ -777,10 +769,10 @@ namespace FShangarExtender
 			}
 			if (_hangarNodes.Count < 1 || _sceneNodes.Count < 1)
 			{
-				Debugger.advancedDebug("no scalable nodes found", _advancedDebug);
+				Log.detail("no scalable nodes found");
 				return;
 			}
-			Debugger.advancedDebug("base scaling nodes collected", _advancedDebug);
+			Log.detail("base scaling nodes collected");
 
 			foreach (Node n in _hangarNodes)
 			{
@@ -797,7 +789,7 @@ namespace FShangarExtender
 								newNode.originalParent = t.parent;
 								newNode.defaultScaling = t.localScale;
 								_nonScalingNodes.Add(newNode);
-								Debugger.advancedDebug("found new hangar node for not scaling: " + t.name + " | position = " + t.localPosition.x + " | " + t.localPosition.y + " | " + t.localPosition.z, _advancedDebug);
+								Log.detail("found new hangar node for not scaling: {0} | position = {1} | {2} | {3}" + t.name, t.localPosition.x, t.localPosition.y, t.localPosition.z);
 								break;
 							}
 						}
@@ -819,14 +811,14 @@ namespace FShangarExtender
 								newNode.originalParent = t.parent;
 								newNode.defaultScaling = t.localScale;
 								_nonScalingNodes.Add(newNode);
-								Debugger.advancedDebug("found new scene node for not scaling: " + t.name + " | position = " + t.localPosition.x + " | " + t.localPosition.y + " | " + t.localPosition.z, _advancedDebug);
+								Log.detail("found new scene node for not scaling: {0} | position = {1} | {2} | {3}", t.name, t.localPosition.x, t.localPosition.y, t.localPosition.z);
 								break;
 							}
 						}
 					}
 				}
 			}
-			Debugger.advancedDebug("nonscaling nodes collected", _advancedDebug);
+			Log.detail("nonscaling nodes collected");
 		}
 
 
@@ -836,8 +828,8 @@ namespace FShangarExtender
 		private static void getSettings()
 		{
             _scalingFactor = HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().scalingFactor;
-            _advancedDebug = HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().advancedDebug;
-            Debugger.advancedDebug("Assigned scalingFactor: " + _scalingFactor, true);
+            Log.setLevel(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().advancedDebug);
+            Log.info("Assigned scalingFactor: " + _scalingFactor);
 		}
 
 
@@ -866,7 +858,7 @@ namespace FShangarExtender
 			}
 			catch (Exception e)
 			{
-				Debugger.advancedDebug("stream reader error: " + e.ToString(), true);
+				Log.error(e, "stream reader error: {0}", e);
 			}
 			return newLine;
 		}
@@ -887,7 +879,7 @@ namespace FShangarExtender
             }
 			catch
 			{
-				Debugger.advancedDebug("Invalid keycode. Resetting to numpad *", true);
+				Log.info("Invalid keycode. Resetting to numpad *");
 				gotKeyPress = false;
 			}
 			return gotKeyPress;

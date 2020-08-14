@@ -3,10 +3,15 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 
+using PluginData = KSPe.IO.File<FShangarExtender.Startup>.Asset;
+
 namespace FShangarExtender
 {
 	static class Constants
 	{
+		internal const string MODID = "FSeditorExtender_NS";
+		internal const string MODNAME = "FS Editor Extender";
+
 		public const string debugMarker = "[FSHangarExtender]";
 		public const string debugVersion = "Version 3.5.0";
 
@@ -16,8 +21,8 @@ namespace FShangarExtender
 		public static string[] nonScalingNodeNames = { "vabcrew", "sphcrew" };
 
 		public static readonly string settingRuntimeDirectory = Assembly.GetExecutingAssembly().Location.Replace(new FileInfo(Assembly.GetExecutingAssembly().Location).Name, "");
-		public const string extentIconFileName = "FShangarExtender/Textures/IconExtend";
-        public const string shrinkIconFileName = "FShangarExtender/Textures/IconShrink";
+		public static readonly string extentIconFileName = PluginData.Solve("Textures", "IconExtend");
+        public static readonly string shrinkIconFileName = PluginData.Solve("Textures", "IconShrink");
 //		public static string completeShrinkIconFileNamePath = string.Concat(settingRuntimeDirectory, extentIconFileName);
 //		public static string completeExtendIconFileNamePath = string.Concat(settingRuntimeDirectory, shrinkIconFileName);
         
