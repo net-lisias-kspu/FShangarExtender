@@ -16,10 +16,12 @@ clean() {
 
 VERSIONFILE=$PACKAGE.version
 
+rm -fR "./bin"
+rm -fR "./obj"
 rm -f "./GameData/$TARGETDIR/*.version"
 rm -f "./GameData/$TARGETDIR/CHANGE_LOG.md"
 rm -f "./GameData/$TARGETDIR/README.md"
 rm -f "./GameData/$TARGETDIR/*.LICENSE"
-for dll in Scale Scale_Redist Scale_TweakableEverything ; do
+for dll in Scale 999_Scale_Redist Scale_TweakableEverything ; do
     clean $dll
 done
