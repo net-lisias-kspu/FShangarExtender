@@ -26,6 +26,8 @@ This plugin extends the usable area when building in the SPH or VAB, so you can 
 
 Creative Commons Attribution 4.0 International.
 
+See [NOTICE](./NOTICE) for further copyright and trademarks notices.
+
 
 ## UPSTREAM
 
