@@ -23,11 +23,11 @@ namespace FShangarExtender
 {
 	static class Constants
 	{
-		internal const string MODID = "FSeditorExtender_NS";
+		internal static readonly string MODID = typeof(Startup).Namespace;
 		internal const string MODNAME = "FS Editor Extender";
 
-		public const string debugMarker = "[FSHangarExtender]";
-		public const string debugVersion = "Version 3.5.0";
+		//public const string debugMarker = "[FSHangarExtender]";
+		//public const string debugVersion = "Version 3.5.0";
 
 		public static string[] baseSceneNames = { "vabscenery", "sphscenery" };
 		public static string[] baseHangarNames = { "vablvl1", "vablvl2", "vablvl3", "vabmodern", "sphlvl1", "sphlvl2", "sphlvl3", "sphmodern" };
