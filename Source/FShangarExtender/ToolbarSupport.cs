@@ -24,17 +24,24 @@
 	If not, see <https://www.gnu.org/licenses/>.
 
 */
-using System;
 using UnityEngine;
+
+using KSPe.Annotations;
+using GUI = KSPe.UI.GUI;
+using GUILayout = KSPe.UI.GUILayout;
+using Toolbar = KSPe.UI.Toolbar;
 
 namespace FShangarExtender
 {
 	[KSPAddon(KSPAddon.Startup.MainMenu, true)]
-	public class RegisterToolbar : MonoBehaviour
+	public class ToolbarController : MonoBehaviour
 	{
+		internal static KSPe.UI.Toolbar.Toolbar Instance => KSPe.UI.Toolbar.Controller.Instance.Get<ToolbarController>();
+
+		[UsedImplicitly]
 		private void Start()
 		{
-			ToolbarControl_NS.ToolbarControl.RegisterMod(Constants.MODID, Constants.MODNAME);
+			KSPe.UI.Toolbar.Controller.Instance.Register<ToolbarController>(Version.FriendlyName);
 		}
 	}
 }

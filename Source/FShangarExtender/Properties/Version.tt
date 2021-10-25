@@ -85,6 +85,6 @@ namespace <#= PROJECT_NAME #>
 		public const string Number = "<#= major #>.<#= minor #>.<#= patch #>.<#= build #>";
 		public const string Text = Number + " /L Unleashed";
 		public const string Vendor = "net.lisias.ksp";
-        public const string FriendlyName = "FS Hangar Extender /L"
+        public const string FriendlyName = "FS Hangar Extender /L";
 	}
 }

@@ -34,6 +34,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion(FShangarExtender.Version.Number)]
 [assembly: AssemblyFileVersion(FShangarExtender.Version.Number)]
 
-[assembly: KSPAssemblyDependency("KSPe", 2, 2)]
-[assembly: KSPAssemblyDependency("KSPe.UI", 2, 2)]
-[assembly: KSPAssemblyDependency("ToolbarController", 1, 0)]
+[assembly: KSPAssemblyDependency("KSPe", 2, 4)]
+[assembly: KSPAssemblyDependency("KSPe.UI", 2, 4)]

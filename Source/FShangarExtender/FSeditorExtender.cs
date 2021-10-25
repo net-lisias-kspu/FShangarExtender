@@ -25,12 +25,13 @@
 
 */
 using System;  
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KSP.UI.Screens;
-using System.IO;
-using ToolbarControl_NS;
+
+using Toolbar = KSPe.UI.Toolbar;
 
 namespace FShangarExtender
 {
@@ -52,10 +53,8 @@ namespace FShangarExtender
 		private static float _scalingFactor = Constants.defaultScaleFactor;
 		//private static bool _hideHangars = false;
 		private bool _hangarExtenderReady = false;
-        //private ApplicationLauncherButton _toolbarButton;
-        ToolbarControl toolbarControl;
-		private static Texture2D _shrinkIcon;
-		private static Texture2D _extendIcon;
+		//private ApplicationLauncherButton _toolbarButton;
+		Toolbar.Button toolbarControl;
 		private bool _isFirstUpdate;
 
 
@@ -250,40 +249,28 @@ namespace FShangarExtender
 		/// </summary>
 		public void loadToolbarButton()
 		{
-			if (_extendIcon == null)
-			{
-				_extendIcon = GameDatabase.Instance.GetTexture(Constants.extentIconFileName + "_38", false);
+			this.toolbarControl = Toolbar.Button.Create(this
+					, ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH
+					, Constants.extentIcon_36
+					, Constants.extentIcon_24
+					, Version.FriendlyName
+				);
+			this.toolbarControl.Toolbar.Add(
+					Toolbar.Button.ToolbarEvents.Kind.Active
+					, new Toolbar.Button.Event(this.ToggleScalingRoutine, this.ToggleScalingRoutine)
+				);
+			this.toolbarControl.Add(
+					Toolbar.Button.ToolbarEvents.Kind.Active
+					, Toolbar.State.Data.Create(Constants.shrinkIcon_36, Constants.shrinkIcon_24)
+					, Toolbar.State.Data.Create(Constants.extentIcon_36, Constants.extentIcon_24)
+				);
+			ToolbarController.Instance.Add(this.toolbarControl);
+		}
 
-			}
-			if (_shrinkIcon == null)
-			{
-				_shrinkIcon = GameDatabase.Instance.GetTexture(Constants.shrinkIconFileName + "_38", false);
-
-			}
-#if false
-            if (_toolbarButton == null)
-			{
-				_toolbarButton = ApplicationLauncher.Instance.AddModApplication(() => StartCoroutine(toggleScaling()), () => StartCoroutine(toggleScaling()),
-            null, null, null, null, ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, _extendIcon);
-				Log.info("Applauncher loading complete");
-			}
-#endif
-            toolbarControl = gameObject.AddComponent<ToolbarControl>();
-            toolbarControl.AddToAllToolbars(ToggleScalingRoutine, ToggleScalingRoutine,
-                ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH,
-                Constants.MODID,
-                "fsEditorExtenderButton",
-                Constants.extentIconFileName + "_38",
-                Constants.extentIconFileName + "_24",
-                Constants.MODNAME
-            );
-            //toolbarControl.UseBlizzy(HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().useBlizzy);
-        }
-
-        /// <summary>
-        /// method to completly reset the whole mod
-        /// </summary>
-        private void resetMod()
+		/// <summary>
+		/// method to completly reset the whole mod
+		/// </summary>
+		private void resetMod()
 		{
 			if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
 			{
@@ -322,17 +309,7 @@ namespace FShangarExtender
 			_hangarExtenderReady = false;
 			_isFirstUpdate = true;
 
-            if (toolbarControl)
-            {
-                toolbarControl.OnDestroy();
-                Destroy(toolbarControl);
-            }
-#if false
-            if (_toolbarButton != null)
-			{
-				ApplicationLauncher.Instance.RemoveModApplication(_toolbarButton);
-			}
-#endif
+			ToolbarController.Instance.Destroy();
 		}
 
 
@@ -492,16 +469,8 @@ namespace FShangarExtender
 					}
 
 					Log.detail("update Button");
-#if false
-                    if (_toolbarButton != null && _extendIcon != null)
-					{
-						_toolbarButton.SetTexture(_extendIcon);
-					}
-#endif
-                    if (toolbarControl != null)
-                    {
-                        toolbarControl.SetTexture(Constants.extentIconFileName + "_38", Constants.extentIconFileName + "_24");
-                    }
+					if (null != this.toolbarControl)
+						this.toolbarControl.Active = false;
 					Log.detail("shrink scene complete");
 				}
 				else
@@ -607,17 +576,9 @@ namespace FShangarExtender
 					}
 
 					Log.detail("update Button");
-#if false
-                    if (_toolbarButton != null && _shrinkIcon != null)
-					{
-						_toolbarButton.SetTexture(_shrinkIcon);
-					}
-#endif
-                    if (toolbarControl != null)
-                    {
-                        toolbarControl.SetTexture(Constants.shrinkIconFileName + "_38", Constants.shrinkIconFileName + "_24");
-                    }
-                    Log.detail("extend scene complete");
+					if (null != this.toolbarControl)
+						this.toolbarControl.Active = false;
+					Log.detail("extend scene complete");
 				}
 				_sceneScaled = !_sceneScaled;
 			}

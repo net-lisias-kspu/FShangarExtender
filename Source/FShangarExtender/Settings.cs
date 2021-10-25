@@ -28,6 +28,7 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 
+using GUI = KSPe.UI.GUI;
 using GUILayout = KSPe.UI.GUILayout;
 
 namespace FShangarExtender
@@ -71,10 +72,10 @@ namespace FShangarExtender
 
             if (Time.realtimeSinceStartup - lastTimeTic > 0.25)            {                active = false;                return;            }
 
-            // The settings are only available in the space center
-            GUI.skin = HighLogic.Skin;
+            // The settings are only available in the space center
+            GUI.skin = HighLogic.Skin;
             settingsRect = GUILayout.Window("HotKeySettings".GetHashCode(),                                            settingsRect,                                            SettingsWindowFcn,                                            "EVA Fuel Settings",                                            GUILayout.ExpandWidth(true),
-                                            GUILayout.ExpandHeight(true));
+                                            GUILayout.ExpandHeight(true));
         }
 
         void Update()
@@ -88,7 +89,7 @@ namespace FShangarExtender
         void SettingsWindowFcn(int windowID)
         {            GUILayout.BeginHorizontal();            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();            GUILayout.Label("Enter desired hotkey: ");
-            GUILayout.Label(hotkey.ToString(), GUI.skin.textField);          
+            GUILayout.Label(hotkey.ToString(), GUI.skin.textField);          
             if (_lastKeyPressed != KeyCode.None)
             {
                 hotkey = _lastKeyPressed;
