@@ -1,4 +1,4 @@
-# Hangar Extender :: Changes
+# Hangar Extender /L Unleashed :: Changes
 
 * 2021-0216: 3.6.0.2 (lisias) for KSP >= 1.4.1
 	+ Fixing ToolbarControl support broken (how??? o.O) on the last release

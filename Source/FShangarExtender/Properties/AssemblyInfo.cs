@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FShangarExtender /L Unofficial")]
+[assembly: AssemblyTitle("FShangarExtender /L Unleashed")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FShangarExtender")]
-[assembly: AssemblyCopyright("Copyright © 2020")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany(FShangarExtender.LegalMamboJambo.Company)]
+[assembly: AssemblyProduct(FShangarExtender.LegalMamboJambo.Product)]
+[assembly: AssemblyCopyright(FShangarExtender.LegalMamboJambo.Copyright)]
+[assembly: AssemblyTrademark(FShangarExtender.LegalMamboJambo.Trademark)]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
