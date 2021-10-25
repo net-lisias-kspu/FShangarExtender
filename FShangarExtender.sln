@@ -5,14 +5,9 @@ VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FShangarExtender", "Source\FShangarExtender\FShangarExtender.csproj", "{4B2C871D-AA4E-4017-89B9-575A77F08ED3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "Source\SolutionFolder", "{968B5E5D-715D-42AE-895C-183999CDA059}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{968B5E5D-715D-42AE-895C-183999CDA059}"
 	ProjectSection(SolutionItems) = preProject
-		buildRelease.bat = buildRelease.bat
-		ChangeLog.txt = ChangeLog.txt
-		deploy.bat = deploy.bat
 		FShangarExtender.version = FShangarExtender.version
-		jenkins.txt = jenkins.txt
-		License.txt.txt = License.txt.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -32,5 +27,14 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {94297A10-9BD0-49A0-924F-DC6510B1B965}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 132
+		$1.scope = text/plain
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
 	EndGlobalSection
 EndGlobal
