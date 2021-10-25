@@ -1,5 +1,7 @@
-# Hangar Extender :: Change Log
+# Hangar Extender /L Unleashed :: Change Log
 
+* 2021-1027: 3.6.0.3 (lisias) for KSP >= 1.4.1
+	+ Updating to KSPe v2.4 facilities (including Toolbar) 
 * 2021-0216: 3.6.0.2 (lisias) for KSP >= 1.4.1
 	+ Fixing ToolbarControl support broken (how??? o.O) on the last release
 	+ Proper Module Manager support (tagging the add'on name correctly)
