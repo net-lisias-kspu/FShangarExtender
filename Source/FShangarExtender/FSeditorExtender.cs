@@ -227,21 +227,22 @@ namespace FShangarExtender
 		}
 
 
-
-		//int scaler;
-		//public void OnGUI()
-		//{
-		//	if (_extraScaleNodes != null && _extraScaleNodes.Count > 0)
-		//	{
-		//		Debugger.advancedDebug("Pre - " + _extraScaleNodes[0].transform.localScale.x + " - " + _extraScaleNodes[0].transform.localScale.y + " - " + _extraScaleNodes[0].transform.localScale.z, true);
-		//		scaler = (int)GUI.HorizontalSlider(new Rect(500, 500, 500, 50), scaler, 1, 5);
-		//		if (Input.GetKey(KeyCode.Return))
-		//		{
-		//			_extraScaleNodes[0].transform.localScale = new Vector3(scaler, scaler, scaler);
-		//		}
-		//		Debugger.advancedDebug("Post - " + _extraScaleNodes[0].transform.localScale.x + " - " + _extraScaleNodes[0].transform.localScale.y + " - " + _extraScaleNodes[0].transform.localScale.z, true);
-		//	}
-		//}
+		#if DEBUG_ADVANCED
+		int scaler;
+		public void OnGUI()
+		{
+			if (_extraScaleNodes != null && _extraScaleNodes.Count > 0)
+			{
+				Debugger.advancedDebug("Pre - " + _extraScaleNodes[0].transform.localScale.x + " - " + _extraScaleNodes[0].transform.localScale.y + " - " + _extraScaleNodes[0].transform.localScale.z, true);
+				scaler = (int)GUI.HorizontalSlider(new Rect(500, 500, 500, 50), scaler, 1, 5);
+				if (Input.GetKey(KeyCode.Return))
+				{
+					_extraScaleNodes[0].transform.localScale = new Vector3(scaler, scaler, scaler);
+				}
+				Debugger.advancedDebug("Post - " + _extraScaleNodes[0].transform.localScale.x + " - " + _extraScaleNodes[0].transform.localScale.y + " - " + _extraScaleNodes[0].transform.localScale.z, true);
+			}
+		}
+		#endif
 
 
 		/// <summary>
@@ -319,8 +320,8 @@ namespace FShangarExtender
 		/// <returns></returns>
 		private IEnumerator<YieldInstruction> initFSHangarExtender(float delay = 0)
 		{
-            if (delay != 0)
-                yield return new WaitForSeconds(delay);
+			if (delay != 0)
+				yield return new WaitForSeconds(delay);
 			getSettings();
 			while ((object)EditorBounds.Instance == null && HighLogic.LoadedScene == GameScenes.EDITOR)
 			{
@@ -348,10 +349,10 @@ namespace FShangarExtender
 			Log.detail("EditorBounds.Instance.cameraOffsetBounds.center = {0} EditorBounds.Instance.cameraOffsetBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.cameraOffsetBounds.center, EditorBounds.Instance.cameraOffsetBounds.extents.x, EditorBounds.Instance.cameraOffsetBounds.extents.y, EditorBounds.Instance.cameraOffsetBounds.extents.z);
 		}
 
-        void ToggleScalingRoutine()
-        {
-            StartCoroutine(toggleScaling());
-        }
+		void ToggleScalingRoutine()
+		{
+			StartCoroutine(toggleScaling());
+		}
 
 		/// <summary>
 		/// method to update the camera bounds and scale the scene
@@ -367,225 +368,239 @@ namespace FShangarExtender
 			if ((object)(EditorBounds.Instance) != null)
 			{
 				if (_sceneScaled)
-				{
-					Log.detail("shrink scene");
-
-					EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends));
-					EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends));
-					EditorBounds.Instance.cameraMaxDistance /= _scalingFactor;
-					Log.detail("Bounds scaled");
-
-
-					sceneCamera.farClipPlane /= _scalingFactor * 2;
-					for (int i = 0; i < sceneCamera.layerCullDistances.Length; i++)
-					{
-						sceneCamera.layerCullDistances[i] /= _scalingFactor * 2;
-					}
-					foreach (VABCamera c in _vabCameras)
-					{
-						c.maxHeight /= _scalingFactor;
-						c.maxDistance /= _scalingFactor;
-					}
-					Log.detail("vabCameras scaled");
-					foreach (SPHCamera c in _sphCameras)
-					{
-						c.maxHeight /= _scalingFactor;
-						c.maxDistance /= _scalingFactor;
-						c.maxDisplaceX /= _scalingFactor;
-						c.maxDisplaceZ /= _scalingFactor;
-					}
-					Log.detail("sphCameras scaled");
-
-
-					RenderSettings.fogStartDistance /= _scalingFactor;
-					RenderSettings.fogEndDistance /= _scalingFactor;
-
-					Log.detail("scale Hangars");
-					if (_hangarNodes != null && _hangarNodes.Count > 0)
-					{
-						foreach (Node n in _hangarNodes)
-						{
-							n.transform.localScale = n.defaultScaling;
-							Log.detail("scaleing Hangar {0}", n.transform.name);
-						}
-					}
-					//Debugger.advancedDebug("scale Scene", _advancedDebug);
-					//if (_sceneNodes != null && _sceneNodes.Count > 0)
-					//{
-					//	foreach (Node n in _sceneNodes)
-					//	{
-					//		n.transform.localScale = n.defaultScaling;
-					//		Debugger.advancedDebug("scaleing Scene" + n.transform.name, _advancedDebug);
-					//	}
-					//}
-					Log.detail("attach Nodes");
-					if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
-					{
-						foreach (Node n in _nonScalingNodes)
-						{
-							n.transform.parent = n.originalParent;
-							n.transform.localScale = n.defaultScaling;
-							Log.detail("Reattaching Node {0}", n.transform.name);
-						}
-					}
-					Log.detail("scale lights");
-					if (_sceneLights != null && _sceneLights.Count > 0)
-					{
-						foreach (Light l in _sceneLights)
-						{
-							if (l != null)
-							{
-								if (l.type == LightType.Spot)
-								{
-									l.range /= _scalingFactor;
-									Log.detail("scaling light");
-								}
-							}
-						}
-					}
-
-					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
-					{
-						Log.detail("hide Hangars");
-						if (_hangarNodes != null && _hangarNodes.Count > 0)
-						{
-							foreach (Node n in _hangarNodes)
-							{
-								List<SkinnedMeshRenderer> skinRenderers = new List<SkinnedMeshRenderer>();
-								n.transform.GetComponentsInChildren<SkinnedMeshRenderer>(skinRenderers);
-								foreach (SkinnedMeshRenderer r in skinRenderers)
-								{
-									r.enabled = true;
-								}
-								List<MeshRenderer> renderers = new List<MeshRenderer>();
-								n.transform.GetComponentsInChildren<MeshRenderer>(renderers);
-								foreach (MeshRenderer r in renderers)
-								{
-									r.enabled = true;
-								}
-							}
-						}
-						Log.detail("hide Hangars complete");
-					}
-
-					Log.detail("update Button");
-					if (null != this.toolbarControl)
-						this.toolbarControl.Active = false;
-					Log.detail("shrink scene complete");
-				}
+					yield return this.shrinkScene();
 				else
-				{
-					Log.detail("extend scene");
-
-					EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends * _scalingFactor));
-					EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends * _scalingFactor));
-					EditorBounds.Instance.cameraMaxDistance *= _scalingFactor;
-					Log.detail("Bounds scaled");
-
-
-					sceneCamera.farClipPlane *= _scalingFactor * 2;
-					for (int i = 0; i < sceneCamera.layerCullDistances.Length; i++)
-					{
-						sceneCamera.layerCullDistances[i] *= _scalingFactor * 2;
-					}
-					foreach (VABCamera c in _vabCameras)
-					{
-						c.maxHeight *= _scalingFactor;
-						c.maxDistance *= _scalingFactor;
-					}
-					Log.detail("vabCameras scaled");
-					foreach (SPHCamera c in _sphCameras)
-					{
-						c.maxHeight *= _scalingFactor;
-						c.maxDistance *= _scalingFactor;
-						c.maxDisplaceX *= _scalingFactor;
-						c.maxDisplaceZ *= _scalingFactor;
-					}
-					Log.detail("sphCameras scaled");
-
-
-					RenderSettings.fogStartDistance *= _scalingFactor;
-					RenderSettings.fogEndDistance *= _scalingFactor;
-
-					if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
-					{
-						Log.detail("hide Hangars");
-						if (_hangarNodes != null && _hangarNodes.Count > 0)
-						{
-							foreach (Node n in _hangarNodes)
-							{
-								List<SkinnedMeshRenderer> skinRenderers = new List<SkinnedMeshRenderer>();
-								n.transform.GetComponentsInChildren<SkinnedMeshRenderer>(skinRenderers);
-								foreach (SkinnedMeshRenderer r in skinRenderers)
-								{
-									r.enabled = false;
-								}
-								List<MeshRenderer> renderers = new List<MeshRenderer>();
-								n.transform.GetComponentsInChildren<MeshRenderer>(renderers);
-								foreach (MeshRenderer r in renderers)
-								{
-									r.enabled = false;
-								}
-							}
-						}
-						Log.detail("hide Hangars complete");
-					}
-					Log.detail("Detach Nodes");
-					if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
-					{
-						foreach (Node n in _nonScalingNodes)
-						{
-							n.transform.parent = _tempParent;
-							n.transform.localScale = n.defaultScaling;
-							Log.detail("Dettaching Node - {0}", n.transform.name);
-						}
-					}
-					Log.detail("scale Hangar");
-					if (_hangarNodes != null && _hangarNodes.Count > 0)
-					{
-						foreach (Node n in _hangarNodes)
-						{
-							n.transform.localScale = n.defaultScaling * _scalingFactor;
-							Log.detail("scaleing HangarNode - {0}", n.transform.name);
-						}
-					}
-					//Debugger.advancedDebug("scale Scene", _advancedDebug);
-					//if (_sceneNodes != null && _sceneNodes.Count > 0)
-					//{
-					//	foreach (Node n in _sceneNodes)
-					//	{
-					//		n.transform.localScale = n.defaultScaling * _scalingFactor;
-					//		Debugger.advancedDebug("scaling SceneNode - "+n.transform.name, _advancedDebug);
-					//	}
-					//}
-
-					Log.detail("scale lights");
-					if (_sceneLights != null && _sceneLights.Count > 0)
-					{
-						foreach (Light l in _sceneLights)
-						{
-							if (l != null)
-							{
-								if (l.type == LightType.Spot)
-								{
-									l.range *= _scalingFactor;
-									Log.detail("scaling light");
-								}
-							}
-						}
-					}
-
-					Log.detail("update Button");
-					if (null != this.toolbarControl)
-						this.toolbarControl.Active = false;
-					Log.detail("extend scene complete");
-				}
+					yield return this.extendScene();
 				_sceneScaled = !_sceneScaled;
 			}
 			Log.detail("Attempting work area scaling complete");
-			Log.detail("Editor camera set to Min = {0} Max = {1} Start = {2}" + EditorBounds.Instance.cameraMinDistance, EditorBounds.Instance.cameraMaxDistance, EditorBounds.Instance.cameraStartDistance);
+			Log.detail("Editor camera set to Min = {0} Max = {1} Start = {2}", EditorBounds.Instance.cameraMinDistance, EditorBounds.Instance.cameraMaxDistance, EditorBounds.Instance.cameraStartDistance);
 			Log.detail("EditorBounds.Instance.constructionBounds.center = {0} EditorBounds.Instance.constructionBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.constructionBounds.center, EditorBounds.Instance.constructionBounds.extents.x, EditorBounds.Instance.constructionBounds.extents.y, EditorBounds.Instance.constructionBounds.extents.z);
 			Log.detail("EditorBounds.Instance.cameraOffsetBounds.center = {0} EditorBounds.Instance.cameraOffsetBounds.extents = ({1} , {2} , {3})", EditorBounds.Instance.cameraOffsetBounds.center, EditorBounds.Instance.cameraOffsetBounds.extents.x, EditorBounds.Instance.cameraOffsetBounds.extents.y, EditorBounds.Instance.cameraOffsetBounds.extents.z);
+			yield break;
+		}
+
+		private YieldInstruction shrinkScene()
+		{
+			Log.detail("shrink scene");
+
+			EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends));
+			EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends));
+			EditorBounds.Instance.cameraMaxDistance /= _scalingFactor;
+			Log.detail("Bounds scaled");
+
+			sceneCamera.farClipPlane /= _scalingFactor * 2;
+			for (int i = 0;i < sceneCamera.layerCullDistances.Length;i++)
+			{
+				sceneCamera.layerCullDistances[i] /= _scalingFactor * 2;
+			}
+			foreach (VABCamera c in _vabCameras)
+			{
+				c.maxHeight /= _scalingFactor;
+				c.maxDistance /= _scalingFactor;
+			}
+			Log.detail("vabCameras scaled");
+			foreach (SPHCamera c in _sphCameras)
+			{
+				c.maxHeight /= _scalingFactor;
+				c.maxDistance /= _scalingFactor;
+				c.maxDisplaceX /= _scalingFactor;
+				c.maxDisplaceZ /= _scalingFactor;
+			}
+			Log.detail("sphCameras scaled");
+
+			RenderSettings.fogStartDistance /= _scalingFactor;
+			RenderSettings.fogEndDistance /= _scalingFactor;
+
+			Log.detail("scale Hangars");
+			if (_hangarNodes != null && _hangarNodes.Count > 0)
+			{
+				foreach (Node n in _hangarNodes)
+				{
+					n.transform.localScale = n.defaultScaling;
+					Log.detail("scaleing Hangar {0}", n.transform.name);
+				}
+			}
+
+			#if DEBUG_ADVANCED
+			// (what the hell was this?)
+			Debugger.advancedDebug("scale Scene", _advancedDebug);
+			if (_sceneNodes != null && _sceneNodes.Count > 0)
+			{
+				foreach (Node n in _sceneNodes)
+				{
+					n.transform.localScale = n.defaultScaling;
+					Debugger.advancedDebug("scaleing Scene" + n.transform.name, _advancedDebug);
+				}
+			}
+			#endif
+
+			Log.detail("attach Nodes");
+			if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
+			{
+				foreach (Node n in _nonScalingNodes)
+				{
+					n.transform.parent = n.originalParent;
+					n.transform.localScale = n.defaultScaling;
+					Log.detail("Reattaching Node {0}", n.transform.name);
+				}
+			}
+			Log.detail("scale lights");
+			if (_sceneLights != null && _sceneLights.Count > 0)
+			{
+				foreach (Light l in _sceneLights)
+				{
+					if (l != null)
+					{
+						if (l.type == LightType.Spot)
+						{
+							l.range /= _scalingFactor;
+							Log.detail("scaling light");
+						}
+					}
+				}
+			}
+
+			if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
+			{
+				Log.detail("hide Hangars");
+				if (_hangarNodes != null && _hangarNodes.Count > 0)
+				{
+					foreach (Node n in _hangarNodes)
+					{
+						List<SkinnedMeshRenderer> skinRenderers = new List<SkinnedMeshRenderer>();
+						n.transform.GetComponentsInChildren<SkinnedMeshRenderer>(skinRenderers);
+						foreach (SkinnedMeshRenderer r in skinRenderers)
+						{
+							r.enabled = true;
+						}
+						List<MeshRenderer> renderers = new List<MeshRenderer>();
+						n.transform.GetComponentsInChildren<MeshRenderer>(renderers);
+						foreach (MeshRenderer r in renderers)
+						{
+							r.enabled = true;
+						}
+					}
+				}
+				Log.detail("hide Hangars complete");
+				return null;
+			}
+
+			Log.detail("update Button");
+			if (null != this.toolbarControl)
+				this.toolbarControl.Active = false;
+			Log.detail("shrink scene complete");
+			return null;
+		}
+
+		private YieldInstruction extendScene()
+		{
+			Log.detail("extend scene");
+
+			EditorBounds.Instance.constructionBounds = new Bounds(EditorBounds.Instance.constructionBounds.center, (_originalConstructionBoundExtends * _scalingFactor));
+			EditorBounds.Instance.cameraOffsetBounds = new Bounds(EditorBounds.Instance.cameraOffsetBounds.center, (_originalCameraOffsetBoundExtends * _scalingFactor));
+			EditorBounds.Instance.cameraMaxDistance *= _scalingFactor;
+			Log.detail("Bounds scaled");
+
+			sceneCamera.farClipPlane *= _scalingFactor * 2;
+			for (int i = 0;i < sceneCamera.layerCullDistances.Length;i++)
+			{
+				sceneCamera.layerCullDistances[i] *= _scalingFactor * 2;
+			}
+			foreach (VABCamera c in _vabCameras)
+			{
+				c.maxHeight *= _scalingFactor;
+				c.maxDistance *= _scalingFactor;
+			}
+			Log.detail("vabCameras scaled");
+			foreach (SPHCamera c in _sphCameras)
+			{
+				c.maxHeight *= _scalingFactor;
+				c.maxDistance *= _scalingFactor;
+				c.maxDisplaceX *= _scalingFactor;
+				c.maxDisplaceZ *= _scalingFactor;
+			}
+			Log.detail("sphCameras scaled");
+
+			RenderSettings.fogStartDistance *= _scalingFactor;
+			RenderSettings.fogEndDistance *= _scalingFactor;
+
+			if (HighLogic.CurrentGame.Parameters.CustomParams<HangerExtender>().hideHangars)
+			{
+				Log.detail("hide Hangars");
+				if (_hangarNodes != null && _hangarNodes.Count > 0)
+				{
+					foreach (Node n in _hangarNodes)
+					{
+						List<SkinnedMeshRenderer> skinRenderers = new List<SkinnedMeshRenderer>();
+						n.transform.GetComponentsInChildren<SkinnedMeshRenderer>(skinRenderers);
+						foreach (SkinnedMeshRenderer r in skinRenderers)
+						{
+							r.enabled = false;
+						}
+						List<MeshRenderer> renderers = new List<MeshRenderer>();
+						n.transform.GetComponentsInChildren<MeshRenderer>(renderers);
+						foreach (MeshRenderer r in renderers)
+						{
+							r.enabled = false;
+						}
+					}
+				}
+				Log.detail("hide Hangars complete");
+			}
+			Log.detail("Detach Nodes");
+			if (_nonScalingNodes != null && _nonScalingNodes.Count > 0)
+			{
+				foreach (Node n in _nonScalingNodes)
+				{
+					n.transform.parent = _tempParent;
+					n.transform.localScale = n.defaultScaling;
+					Log.detail("Dettaching Node - {0}", n.transform.name);
+				}
+			}
+			Log.detail("scale Hangar");
+			if (_hangarNodes != null && _hangarNodes.Count > 0)
+			{
+				foreach (Node n in _hangarNodes)
+				{
+					n.transform.localScale = n.defaultScaling * _scalingFactor;
+					Log.detail("scaleing HangarNode - {0}", n.transform.name);
+				}
+			}
+
+			#if DEBUG_ADVANCED
+			Debugger.advancedDebug("scale Scene", _advancedDebug);
+			if (_sceneNodes != null && _sceneNodes.Count > 0)
+			{
+				foreach (Node n in _sceneNodes)
+				{
+					n.transform.localScale = n.defaultScaling * _scalingFactor;
+					Debugger.advancedDebug("scaling SceneNode - " + n.transform.name, _advancedDebug);
+				}
+			}
+			#endif
+
+			Log.detail("scale lights");
+			if (_sceneLights != null && _sceneLights.Count > 0)
+			{
+				foreach (Light l in _sceneLights)
+				{
+					if (l != null)
+					{
+						if (l.type == LightType.Spot)
+						{
+							l.range *= _scalingFactor;
+							Log.detail("scaling light");
+						}
+					}
+				}
+			}
+
+			Log.detail("update Button");
+			if (null != this.toolbarControl)
+				this.toolbarControl.Active = false;
+			Log.detail("extend scene complete");
+			return null;
 		}
 
 
