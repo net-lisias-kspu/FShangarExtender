@@ -628,7 +628,7 @@ namespace FShangarExtender
 		/// </summary>
 		private static void listNodes()
 		{
-			Log.info("listNodes started");
+			Log.detail("listNodes started");
 			List<Transform> rootNodes = new List<Transform>();
 			foreach (Transform t in UnityEngine.Object.FindObjectsOfType<Transform>())
 			{
@@ -646,7 +646,7 @@ namespace FShangarExtender
 			{
 				foreach(Transform ct in t)
 				{
-					Log.info("{0} --- {1}", t.name, ct.name);
+					Log.detail("{0} --- {1}", t.name, ct.name);
 				}
 			}
 			Log.detail("listNodes finished");
@@ -658,7 +658,7 @@ namespace FShangarExtender
 		/// </summary>
 		private static void listNodesAdvanced()
 		{
-			Log.info("listNodesAdvanced started");
+			Log.detail("listNodesAdvanced started");
 			List<Transform> rootNodes = new List<Transform>();
 			foreach (Transform t in UnityEngine.Object.FindObjectsOfType<Transform>())
 			{
@@ -672,7 +672,7 @@ namespace FShangarExtender
 					rootNodes.Add(newTransform);
 				}
 			}
-			Log.info("listNodesAdvanced finished");
+			Log.detail("listNodesAdvanced finished");
 		}
 
 
@@ -684,7 +684,7 @@ namespace FShangarExtender
 			_sceneLights = ((Light[])FindObjectsOfType(typeof(Light))).ToList();
 			foreach (Light l in _sceneLights)
 			{
-				Log.detail("Light = {0} - Type = {1} - Intensity = {2}" + l.name, l.type, l.intensity);
+				Log.detail("Light = {0} - Type = {1} - Intensity = {2}", l.name, l.type, l.intensity);
 			}
 		}
 
@@ -776,7 +776,7 @@ namespace FShangarExtender
 								newNode.originalParent = t.parent;
 								newNode.defaultScaling = t.localScale;
 								_nonScalingNodes.Add(newNode);
-								Log.detail("found new hangar node for not scaling: {0} | position = {1} | {2} | {3}" + t.name, t.localPosition.x, t.localPosition.y, t.localPosition.z);
+								Log.detail("found new hangar node for not scaling: {0} | position = {1} | {2} | {3}", t.name, t.localPosition.x, t.localPosition.y, t.localPosition.z);
 								break;
 							}
 						}
